@@ -10,6 +10,8 @@ public class WeatherManager : MonoBehaviour {
 
 	VolumetricLight VolLightClass = null;
 
+	const int iLightDistance = 100;
+
 	// Use this for initialization
 	void Start () {
 
@@ -42,7 +44,8 @@ public class WeatherManager : MonoBehaviour {
 		// Set the position between player and the sun at 50 units far
 		pVolumetricLight.transform.position = pPlayer.transform.position - ( pSun.transform.TransformDirection (new Vector3 ( 0.0f, 0.0f, 1.0f ) ) * 100 );
 
-	//	pPlayer.transform.position = pVolumetricLight.transform.position;
+		if ( pVolumetricLight.transform.position.y > 0.0f )
+			pVolumetricLight.range = ( iLightDistance + ( iLightDistance * ( 1.0f - ( pVolumetricLight.transform.position.y / 180.0f ) ) ) );
 
 	}
 }
