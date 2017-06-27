@@ -45,9 +45,7 @@ public class WeatherManager : MonoBehaviour {
 		pVolumetricLight.transform.position = pPlayer.transform.position - ( pSun.transform.TransformDirection (new Vector3 ( 0.0f, 0.0f, 1.0f ) ) * ( pVolumetricLight.range / 4 ) );
 
 		if ( pVolumetricLight.transform.position.y > 0.0f )
-			pVolumetricLight.range = ( iLightDistance + ( iLightDistance * ( 1.0f - ( pVolumetricLight.transform.position.y / 180.0f ) ) ) );
-
-		Debug.Log( " range " + pVolumetricLight.range );
+			pVolumetricLight.range = ( iLightDistance + ( iLightDistance * ( 1.0f - ( pVolumetricLight.transform.position.y / 50.0f ) ) ) );
 
 	}
 }
