@@ -42,10 +42,12 @@ public class WeatherManager : MonoBehaviour {
 		pVolumetricLight.transform.rotation = pSun.transform.rotation;
 
 		// Set the position between player and the sun at 50 units far
-		pVolumetricLight.transform.position = pPlayer.transform.position - ( pSun.transform.TransformDirection (new Vector3 ( 0.0f, 0.0f, 1.0f ) ) * 100 );
+		pVolumetricLight.transform.position = pPlayer.transform.position - ( pSun.transform.TransformDirection (new Vector3 ( 0.0f, 0.0f, 1.0f ) ) * ( pVolumetricLight.range / 4 ) );
 
 		if ( pVolumetricLight.transform.position.y > 0.0f )
 			pVolumetricLight.range = ( iLightDistance + ( iLightDistance * ( 1.0f - ( pVolumetricLight.transform.position.y / 180.0f ) ) ) );
+
+		Debug.Log( " range " + pVolumetricLight.range );
 
 	}
 }
