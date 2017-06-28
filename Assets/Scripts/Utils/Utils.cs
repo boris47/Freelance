@@ -224,6 +224,15 @@ static class Utils {
 
 		return Angle;
 
+	}
+
+	public static Vector3 Math_Vec3Lerp( Vector3 V1, Vector3 V2, float fInterpolant ) {
+
+		return new Vector3(
+			Mathf.Lerp( V1.x, V2.x, fInterpolant ),
+			Mathf.Lerp( V1.y, V2.y, fInterpolant ),
+			Mathf.Lerp( V1.z, V2.z, fInterpolant )
+			);
 
 	}
 
