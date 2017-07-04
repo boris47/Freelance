@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 // Upgrade NOTE: replaced 'unity_World2Shadow' with 'unity_WorldToShadow'
 
@@ -34,9 +36,11 @@ Shader "Sandbox/VolumetricLight"
 {
 	Properties
 	{
+		
 		[HideInInspector]_MainTex ("Texture", 2D) = "white" {}
 		[HideInInspector]_ZTest ("ZTest", Float) = 0
 		[HideInInspector]_LightColor("_LightColor", Color) = (1,1,1,1)
+		
 	}
 	SubShader
 	{
@@ -72,6 +76,8 @@ Shader "Sandbox/VolumetricLight"
 		float4 _VolumetricLight;
         // x: 1 - g^2, y: 1 + g^2, z: 2*g, w: 1/4pi
         float4 _MieG;
+		
+		float4 _UserColor;
 
 		// x: scale, y: intensity, z: intensity offset
 		float4 _NoiseData;
@@ -286,7 +292,7 @@ Shader "Sandbox/VolumetricLight"
 				extinction += _VolumetricLight.y * stepSize * density;// +scattering;
 
 				float4 light = atten * scattering * exp(-extinction);
-
+ 
 //#if PHASE_FUNCTOIN
 #if !defined (DIRECTIONAL) && !defined (DIRECTIONAL_COOKIE)
 				// phase functino for spot and point lights
@@ -306,7 +312,7 @@ Shader "Sandbox/VolumetricLight"
 #endif
 
 			// apply light's color
-			vlight *= _LightColor;
+			vlight *= _LightColor * _UserColor;
 
 			vlight = max(0, vlight);
 #if defined (DIRECTIONAL) || defined (DIRECTIONAL_COOKIE) // use "proper" out-scattering/absorption for dir light 
@@ -634,7 +640,7 @@ Shader "Sandbox/VolumetricLight"
 			{
 				PSInput o;
 
-				o.pos = mul(UNITY_MATRIX_MVP, i.vertex);
+				o.pos = UnityObjectToClipPos(i.vertex);
 				o.uv = i.uv;
 
 				// SV_VertexId doesn't work on OpenGL for some reason -> reconstruct id from uv

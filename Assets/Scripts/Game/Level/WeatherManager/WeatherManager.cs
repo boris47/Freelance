@@ -13,7 +13,7 @@ public class WeatherManager : MonoBehaviour {
 
 
 	const float LIGHT_DIST_MULT = 0.6f;
-	const float MAX_LIGHT_POWER = 25.0f;
+	const float MAX_LIGHT_POWER = 18.0f;
 	const float MAX_LIGHT_EXTINCION = 0.02f;
 	const float MAX_LIGHT_MIEG = 0.2f;
 
@@ -24,7 +24,7 @@ public class WeatherManager : MonoBehaviour {
 	void Start () {
 
 		fLightRange = pVolumetricLight.range;
-		pVolumetricLight.spotAngle = 2.0f;
+		pVolumetricLight.spotAngle = 20.0f;
 		pVolumetricLight.intensity = 0.1f;
 		pVolumetricLight.shadowStrength = 1.0f;
 		pVolumetricLight.shadowBias = 0.0f;
@@ -34,9 +34,8 @@ public class WeatherManager : MonoBehaviour {
 		VolLightClass = pVolumetricLight.GetComponent<VolumetricLight>();
 		VolLightClass.SampleCount 			= 8;
 		VolLightClass.SkyboxExtinctionCoef 	= 0.0f;
-		VolLightClass.MaxRayLength 			= 2000.0f;
 
-		DefSunColor =  (Color32)pVolumetricLight.color;
+		DefSunColor = (Color32) pVolumetricLight.color;
 		SunColor = new Color32( 255, 141, 76, 255 );
 
 	}
@@ -59,7 +58,7 @@ public class WeatherManager : MonoBehaviour {
 //			pVolumetricLight.range = ( fLightRange + ( ( fLightRange * ( 1.0f - fSunPower ) ) ) * 0.5f );
 
 		if ( pVolumetricLight.transform.position.y > 0.0f )
-		pVolumetricLight.range = ( fLightRange + ( fLightRange * ( fSunPower ) ) );
+		pVolumetricLight.range = ( fLightRange + ( fLightRange * ( fSunPower * 0.5f ) ) );
 
 		// Power of the light
 		VolLightClass.ScatteringCoef = MAX_LIGHT_POWER + ( MAX_LIGHT_POWER * fSunPower /** ( ( fSunPower ) * 0.7f )*/ );
@@ -69,6 +68,8 @@ public class WeatherManager : MonoBehaviour {
 		
 		// Controls mie scattering (controls how light is reflected with respect to light's direction)
 		VolLightClass.MieG = 0.5f + ( 0.25f * fSunPower );
+
+		pVolumetricLight.color = new Color( ( 1.0f - fSunPower ), ( 1.0f - fSunPower ), ( 1.0f - fSunPower ), ( 1.0f - fSunPower ) );
 
 		VolLightClass.UserColor = Color32.Lerp( DefSunColor, SunColor, ( 1.0f - fSunPower ) );
 

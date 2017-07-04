@@ -224,7 +224,8 @@ public class VolumetricLight : MonoBehaviour
             _material.DisableKeyword("NOISE");
 
         _material.SetVector("_LightPos", new Vector4(_light.transform.position.x, _light.transform.position.y, _light.transform.position.z, 1.0f / (_light.range * _light.range)));
-        _material.SetVector("_LightColor", ( ( _light.color + (Color)UserColor ) * 0.5f ) * _light.intensity);
+        _material.SetVector("_LightColor", _light.color * _light.intensity);
+		_material.SetVector("_UserColor", (Color)UserColor );
 
         if (_light.cookie == null)
         {
@@ -297,7 +298,8 @@ public class VolumetricLight : MonoBehaviour
         _material.SetMatrix("_WorldViewProj", viewProj * world);
 
         _material.SetVector("_LightPos", new Vector4(_light.transform.position.x, _light.transform.position.y, _light.transform.position.z, 1.0f / (_light.range * _light.range)));
-        _material.SetVector("_LightColor", ( ( _light.color + (Color)UserColor ) * 0.5f ) * _light.intensity);
+		_material.SetVector("_LightColor", _light.color * _light.intensity);
+		_material.SetVector("_UserColor", (Color)UserColor );
 
 
         Vector3 apex = transform.position;
@@ -388,7 +390,8 @@ public class VolumetricLight : MonoBehaviour
             _material.DisableKeyword("NOISE");
 
         _material.SetVector("_LightDir", new Vector4(_light.transform.forward.x, _light.transform.forward.y, _light.transform.forward.z, 1.0f / (_light.range * _light.range)));
-        _material.SetVector("_LightColor", ( ( _light.color + (Color)UserColor ) * 0.5f ) * _light.intensity);
+		_material.SetVector("_LightColor", _light.color * _light.intensity);
+		_material.SetVector("_UserColor", (Color)UserColor );
         _material.SetFloat("_MaxRayLength", MaxRayLength);
 
         if (_light.cookie == null)
