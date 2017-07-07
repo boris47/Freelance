@@ -195,6 +195,12 @@ public class Actor: Human {
 
 */
 
+	void OnCollisionEnter() {
+
+		pRigidBody.velocity = new Vector3( 0.0f, 0.0f, 0.0f );
+
+	}
+
 
 	void CheckGrounded() {
 
