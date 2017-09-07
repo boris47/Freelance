@@ -80,7 +80,7 @@ public class Actor: Human {
 		// Clear all the state flags
 		ResetStates();
 
-		CheckGrounded();
+		bGrounded = Physics.Raycast( transform.position, Vector3.down, 2.6f );
 
 		// Get keyboard inputs
 		float 	fMove 			= Input.GetAxis ( cInput.Axis.Vertical );
@@ -195,16 +195,10 @@ public class Actor: Human {
 
 */
 
-	void OnCollisionEnter() {
+	void OnCollisionEnter( Collision obj ) {
 
-		pRigidBody.velocity = new Vector3( 0.0f, 0.0f, 0.0f );
-
-	}
-
-
-	void CheckGrounded() {
-
-		bGrounded = Physics.Raycast( transform.position, Vector3.down, 2.6f );   
+		if ( obj.gameObject.tag == "Terrain" )
+			pRigidBody.velocity = new Vector3( 0.0f, 0.0f, 0.0f );
 
 	}
  

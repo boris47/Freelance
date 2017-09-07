@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sun : MonoBehaviour {
 
+public class Sun : MonoBehaviour {
+	
 	public Vector3 vRotation;
 
 	void FixedUpdate()  {
