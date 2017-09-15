@@ -94,8 +94,6 @@ public class Actor: Human {
 
 			// Calculate how fast we should be moving
 			Vector3 vTargetVelocity = new Vector3( fStrafe, 0.0f, fMove );
-			vTargetVelocity = transform.TransformDirection( vTargetVelocity );
-			Vector3 vActualVelocity = pRigidBody.velocity;
 
 			// If is moving
 			if ( vTargetVelocity.magnitude > 0.0f ) {
@@ -122,7 +120,7 @@ public class Actor: Human {
 			if ( bCanJump && bJumpInput ) {
 
 				float fRunBoost = IsRunning() ? 1.5f : 1.0f;
-				pRigidBody.velocity = new Vector3( vActualVelocity.x, CalculateJumpVerticalSpeed() * fRunBoost, vActualVelocity.z );
+				pRigidBody.velocity = new Vector3( pRigidBody.velocity.x, CalculateJumpVerticalSpeed() * fRunBoost, pRigidBody.velocity.z );
 				SetJumping( true );
 				SetCrouched( false );
 				bGrounded = false;
@@ -139,13 +137,7 @@ public class Actor: Human {
 			else 
 				vTargetVelocity *= fWalkSpeed;
 
-			// Apply a force that attempts to reach our target velocity
-			Vector3 velocityChange = ( vTargetVelocity - vActualVelocity );
-			velocityChange.x = Mathf.Clamp( velocityChange.x, -fMaxVelocityChange, fMaxVelocityChange );
-			velocityChange.z = Mathf.Clamp( velocityChange.z, -fMaxVelocityChange, fMaxVelocityChange );
-			velocityChange.y = 0.0f;
-			pRigidBody.AddForce( velocityChange, ForceMode.VelocityChange );
-			
+			pRigidBody.velocity = transform.TransformDirection( vTargetVelocity );
 	        
 	    }
 		

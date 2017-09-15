@@ -24,6 +24,7 @@ public partial class CameraScript : MonoBehaviour, ICameraScript {
 
 
 	// store the actual rotation value
+	float fCurrentRotation_X = 0.0f;
 	float fCurrentRotation_Y = 0.0f;
 
 
@@ -71,6 +72,11 @@ public partial class CameraScript : MonoBehaviour, ICameraScript {
 		return fCamHeigth;
 	}
 
+	private void Update() {
+		
+		fCurrentRotation_X = Mathf.Lerp( fCurrentRotation_X, Input.GetAxis ( cInput.Mouse.Mouse_X ) * fMouseSensibility, Time.deltaTime * 100f );
+
+	}
 
 	void FixedUpdate() {
 
@@ -80,11 +86,16 @@ public partial class CameraScript : MonoBehaviour, ICameraScript {
 		////////////////////////////////////////////////////////
 
 		// Get Actual mouse motion delta
-		float fCurrentRotation_X = Input.GetAxis ( cInput.Mouse.Mouse_X ) * fMouseSensibility;
+//		float fRotation_X = Input.GetAxis ( cInput.Mouse.Mouse_X ) * fMouseSensibility;
+
+		
 
 		if ( pParent ) {
 			// Rotate the body horizzontally
-			pParent.transform.Rotate ( new Vector3 ( 0.0f, fCurrentRotation_X, 0.0f) );
+//			pParent.transform.Rotate( Vector3.up, fCurrentRotation_X );
+			pParent.transform.Rotate ( 0.0f, fCurrentRotation_X, 0.0f );
+//			pParent.transform.Rotate ( new Vector3 ( 0.0f, fCurrentRotation_X, 0.0f) );
+
 		}
 
 		////////////////////////////////////////////////////////
@@ -92,7 +103,8 @@ public partial class CameraScript : MonoBehaviour, ICameraScript {
 		//	CAM ROTATION
 		////////////////////////////////////////////////////////
 		float fMouseMotion = Input.GetAxis ( cInput.Mouse.Mouse_Y ) * fMouseSensibility;
-		fCurrentRotation_Y = Mathf.Clamp (fCurrentRotation_Y + fMouseMotion, -f_Y_Clamp, f_Y_Clamp);
+//		fCurrentRotation_Y = Mathf.Clamp (fCurrentRotation_Y + fMouseMotion, -f_Y_Clamp, f_Y_Clamp);
+		fCurrentRotation_Y = Mathf.Lerp( fCurrentRotation_Y, Mathf.Clamp (fCurrentRotation_Y + fMouseMotion, -f_Y_Clamp, f_Y_Clamp), Time.deltaTime * 100f );
 
 		this.transform.localRotation = pParent.transform.localRotation;
 		this.transform.Rotate ( Vector3.left, fCurrentRotation_Y );
